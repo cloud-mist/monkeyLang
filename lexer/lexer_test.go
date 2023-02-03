@@ -6,11 +6,10 @@ import (
 )
 
 func TestNextToken(t *testing.T) {
-	// 使用 `` 包裹的字符串 不会解析 字符串中的 转义符
 	input := `=+(){},;`
 
 	tests := []struct {
-		expectdType     token.TokenType
+		expectedType    token.TokenType
 		expectedLiteral string
 	}{
 		{token.ASSIGN, "="},
@@ -24,16 +23,18 @@ func TestNextToken(t *testing.T) {
 		{token.EOF, ""},
 	}
 
-	l := New(input)
+	l := New(input) // 构造一个Lexer输入struct, 取值就用NextToken
 
+	// 取出tests用来测试的每个词法单元，进行比较，如果不相等，说明有问题
 	for i, tt := range tests {
 		tok := l.NextToken()
-		if tok.Type != tt.expectdType {
-			t.Fatalf("tests[%d] - tokentype wrong. expected=%q, got=%q", i, tt.expectdType, tok.Type)
+
+		if tok.Type != tt.expectedType {
+			t.Fatalf("tests[%d] - tokentype wrong, expected=%q, got=%q", i, tt.expectedType, tok.Type)
 		}
 
 		if tok.Literal != tt.expectedLiteral {
-			t.Fatalf("tests[%d] - literal wrong. expected=%q, got=%q", i, tt.expectedLiteral, tok.Literal)
+			t.Fatalf("tests[%d] - literal wrong, expected=%q, got=%q", i, tt.expectedLiteral, tok.Literal)
 		}
 	}
 
