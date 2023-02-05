@@ -5,22 +5,26 @@ import (
 	"testing"
 )
 
-func TestNextToken(t *testing.T) {
-	input := `=+(){},;`
+// lexer/lexer_test.go
 
+func TestNextToken(t *testing.T) {
+	input := `let five = 5;
+let ten = 10;
+`
 	tests := []struct {
 		expectedType    token.TokenType
 		expectedLiteral string
 	}{
+		{token.LET, "let"},
+		{token.IDENT, "five"},
 		{token.ASSIGN, "="},
-		{token.PLUS, "+"},
-		{token.LPAREN, "("},
-		{token.RPAREN, ")"},
-		{token.LBRACE, "{"},
-		{token.RBRACE, "}"},
-		{token.COMMA, ","},
+		{token.INT, "5"},
 		{token.SEMICOLON, ";"},
-		{token.EOF, ""},
+		{token.LET, "let"},
+		{token.IDENT, "ten"},
+		{token.ASSIGN, "="},
+		{token.INT, "10"},
+		{token.SEMICOLON, ";"},
 	}
 
 	l := New(input) // 构造一个Lexer输入struct, 取值就用NextToken

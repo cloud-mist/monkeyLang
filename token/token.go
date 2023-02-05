@@ -12,12 +12,23 @@ const (
 	EOF     = "EOF"     // 文件结尾
 
 	// 标识符 字面两
-	IDENT  = "IDENT" // add, foobar, x, y
-	INT    = "INT"   // 123
-	ASSIGN = "="
-	PLUS   = "+"
+	IDENT = "IDENT" // add, foobar, x, y
+	INT   = "INT"   // 123
 
 	// 运算符
+	ASSIGN   = "="
+	PLUS     = "+"
+	MINUS    = "-"
+	BANG     = "!"
+	ASTERISK = "*"
+	SLASH    = "/"
+
+	LT     = "<"
+	GT     = ">"
+	EQ     = "=="
+	NOT_EQ = "!="
+
+	// 标点
 	COMMA     = ","
 	SEMICOLON = ";"
 
@@ -29,4 +40,28 @@ const (
 	// 关键字
 	FUNCTION = "FUNCTION"
 	LET      = "LET"
+	TRUE     = "TRUE"
+	FALSE    = "FALSE"
+	IF       = "IF"
+	ELSE     = "ELSE"
+	RETURN   = "RETURN"
 )
+
+// 关键字加入map
+var keywords = map[string]TokenType{
+	"fn":     FUNCTION,
+	"let":    LET,
+	"true":   TRUE,
+	"false":  FALSE,
+	"if":     IF,
+	"else":   ELSE,
+	"return": RETURN,
+}
+
+// 判断是否是关键字
+func LookupIdent(ident string) TokenType {
+	if tok, ok := keywords[ident]; ok {
+		return tok
+	}
+	return IDENT
+}
